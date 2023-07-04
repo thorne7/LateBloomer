@@ -1,5 +1,29 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const DepartmentQueries = require('./queries/departmentQueries');
+const RoleQueries = require('./queries/roleQueries');
+const EmployeeQueries = require('./queries/employeeQueries');
+
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'lateBloomer_db'
+  });
+
+  // Create instances of query classes
+const departmentQueries = new DepartmentQueries(connection);
+// const roleQueries = new RoleQueries(connection);
+// const employeeQueries = new EmployeeQueries(connection);
+  
+  // Establish a connection with the MySQL server
+  connection.connect(err => {
+    if (err) throw err;
+    console.log('Connected to the lateBloomer_db database.\n');
+    // Start the application by prompting the user
+    promptUser();
+  });
 
 const {
   viewAllDepartments,
@@ -32,7 +56,13 @@ function promptUser() {
     .then(answer => {
       switch (answer.action) {
         case 'View all departments':
-          viewAllDepartments();
+            departmentQueries.viewAllDepartments()
+            .then(departments => {
+              console.log(departments);
+            })
+            .catch(err => {
+              console.error(err);
+            });
           break;
         case 'View all roles':
           viewAllRoles();
@@ -54,10 +84,10 @@ function promptUser() {
           break;
         case 'Exit':
           console.log('Goodbye!');
-          process.exit();
+          connection.end();
+          break;
       }
     });
 }
 
-// Start the application by prompting the user
-promptUser();
+module.export = connection
