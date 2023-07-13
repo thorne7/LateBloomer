@@ -32,7 +32,8 @@ const {
   addDepartment,
   addRole,
   addEmployee,
-  updateEmployeeRole
+  updateEmployeeRole,
+  updateEmployeeManager
 } = require('./queries');
 
 // Function to prompt the user for their desired action
@@ -265,70 +266,52 @@ function promptUser() {
             });
           break;
 
-        case 'Update employee manager':
-          employeeQueries
-            .getAllEmployees()
-            .then(employees => {
-              const employeeChoices = employees.map(employee => ({
-                name: `${employee.first_name} ${employee.last_name}`,
-                value: employee.id,
-              }));
-
-              inquirer
-                .prompt([{
-                  name: 'employeeId',
-                  type: 'list',
-                  message: 'Select the employee to update:',
-                  choices: employeeChoices,
-                }, ])
-                .then(employeeAnswer => {
-                  const {
-                    employeeId
-                  } = employeeAnswer;
-
-                  employeeQueries
-                    .getAllManagers()
-                    .then(managers => {
-                      const managerChoices = managers.map(manager => ({
-                        name: `${manager.first_name} ${manager.last_name}`,
-                        value: manager.id,
-                      }));
-
-                      inquirer
-                        .prompt([{
-                          name: 'managerId',
-                          type: 'list',
-                          message: 'Select the new manager:',
-                          choices: managerChoices,
-                        }, ])
-                        .then(managerAnswer => {
-                          const {
-                            managerId
-                          } = managerAnswer;
-
-                          employeeQueries
-                            .updateEmployeeManager(employeeId, managerId)
-                            .then(result => {
-                              console.log('Employee manager updated successfully!');
-                              promptUser();
-                            })
-                            .catch(err => {
-                              console.error(err);
-                              promptUser();
-                            });
-                        });
+          case 'Update an employee manager':
+            employeeQueries.getAllEmployees()
+              .then(employees => {
+                inquirer.prompt([
+                  {
+                    name: 'employeeId',
+                    type: 'list',
+                    message: 'Select an employee:',
+                    choices: employees.map(employee => ({
+                      name: employee.full_name,
+                      value: employee.id,
+                    })),
+                  },
+                  {
+                    name: 'managerId',
+                    type: 'list',
+                    message: 'Select the new manager:',
+                    choices: employees.map(manager => ({
+                      name: employees.manager_name,
+                      value: manager.id,
+                    })),
+                  },
+                ])
+                .then(answer => {
+                  const { employeeId, managerId } = answer;
+          
+                  employeeQueries.updateEmployeeManager(employeeId, managerId)
+                    .then(result => {
+                      console.log('Employee manager updated successfully!');
+                      promptUser();
                     })
                     .catch(err => {
                       console.error(err);
                       promptUser();
                     });
+                })
+                .catch(err => {
+                  console.error(err);
+                  promptUser();
                 });
-            })
-            .catch(err => {
-              console.error(err);
-              promptUser();
-            });
-          break;
+              })
+              .catch(err => {
+                console.error(err);
+                promptUser();
+              });
+            break;
 
       }
     });

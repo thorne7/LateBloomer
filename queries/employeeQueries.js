@@ -86,19 +86,18 @@ class EmployeeQueries {
 
   updateEmployeeManager(employeeId, managerId) {
     const query = 'UPDATE employees SET manager_id = ? WHERE id = ?';
-
+  
     return new Promise((resolve, reject) => {
       this.connection.query(query, [managerId, employeeId], (err, result) => {
         if (err) {
           reject(err);
           return;
         }
-
+  
         resolve(result);
       });
     });
   }
-
 
   getAllManagers() {
     const query = `
