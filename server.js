@@ -313,6 +313,11 @@ function promptUser() {
               });
             break;
 
+            case 'Exit':
+              console.log('Never compromise. Not even in the face of Armageddon!');
+              connection.end();
+              break;
+
       }
     });
 }

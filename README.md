@@ -1,6 +1,3 @@
-
-A command-line application to manage a company's employee database, using Node.js, Inquirer, and MySQL.
-
 # Employee Tracker
 
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow.svg)](https://www.javascript.com/)
@@ -25,7 +22,7 @@ Employee Tracker is a command-line application that allows you to manage departm
 
 1. Clone the repository:
 
-   git clone https://github.com/your-username/employee-tracker.git
+   git clone https://github.com/thorne7/LateBloomer
 
 2. Navigate to the project's directory:
 
@@ -54,6 +51,8 @@ node server.js
 Follow the on-screen prompts to interact with the application. You can choose from various options such as viewing departments, roles, and employees, adding new entries, updating employee roles and managers, and more.
 
 Make sure you have MySQL installed and running on your machine before using the application.
+
+![Example image](./assets/NeverCompromise.JPG)
 
 ## License
 This project is licensed under the MIT license.
