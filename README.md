@@ -53,6 +53,7 @@ Follow the on-screen prompts to interact with the application. You can choose fr
 Make sure you have MySQL installed and running on your machine before using the application.
 
 ![Example image](./assets/NeverCompromise.JPG)
+![Video Demo](https://drive.google.com/file/d/1AvJdeZSA5ryNRcnVobTVoXCUC2pMGiCj/view)
 
 ## License
 This project is licensed under the MIT license.
